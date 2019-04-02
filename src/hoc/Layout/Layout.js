@@ -13,6 +13,13 @@ const styles= theme=>({
   },
   container:{
     height:'100%'
+  },
+  '@media screen and (min-width:900px)':{
+    main:{
+      width:'900px',
+      marginLeft:'auto',
+      marginRight:'auto'
+    }
   }
 })
 class Layout extends Component {

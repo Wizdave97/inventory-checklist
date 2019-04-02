@@ -37,7 +37,7 @@ const navBar = props =>{
   return(
     <AppBar position="static">
       <Toolbar className={classes.root}>
-        <Typography variant="h4" className={classes.title} color="inherit">Kitchen Inventory</Typography>
+        <Typography variant="h4" className={classes.title} color="inherit">Inventory Control</Typography>
         <Fade in={true} timeout={{enter:10,exit:10}}>
           <React.Fragment>
           <Button variant="outlined"  color="secondary" className={classes.button}  component="button" size="medium">Inventory</Button>
