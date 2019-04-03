@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { createStore,combineReducers, compose, applyMiddleware } from 'redux';
+import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import * as serviceWorker from './serviceWorker';
@@ -41,11 +42,15 @@ const theme = createMuiTheme({
     }
   }
 })
-ReactDOM.render(<Provider store={store}>
+ReactDOM.render(
+                  <Provider store={store}>
+                  <BrowserRouter>
                   <MuiThemeProvider theme={theme}>
                     <App />
                   </MuiThemeProvider>
-                </Provider>, document.getElementById('root'));
+                  </BrowserRouter>
+                </Provider>
+              , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

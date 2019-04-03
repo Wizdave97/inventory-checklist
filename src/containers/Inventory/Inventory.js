@@ -35,8 +35,8 @@ const styles= theme =>({
 })
 class Inventory extends Component {
   state={
-    filters:['utensils','fruit','vegetables','cereal','meat','grain','liquid','spice','equipment'],
-    currentFilter:'',
+    filters:['all','utensils','fruit','vegetables','cereal','meat','grain','liquid','spice','equipment'],
+    currentFilter:'all',
     inventory:[
       {
         name:'Bannana',
@@ -92,7 +92,7 @@ class Inventory extends Component {
                         {inventory.name}
                       </Typography>
                       <Typography component="p">
-                        Bananas are high in iron content and very nutritious
+                        Quantity <strong>{inventory.quantity} {inventory.unit}</strong>
                       </Typography>
                     </CardContent>
                   </CardActionArea>

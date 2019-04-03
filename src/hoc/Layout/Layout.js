@@ -23,12 +23,20 @@ const styles= theme=>({
   }
 })
 class Layout extends Component {
+  state={
+    active:null
+  }
+  handleClick =(val)=>{
+    this.setState({
+      active:val
+    })
+  }
 
   render () {
     const {classes}=this.props
     return (
       <React.Fragment>
-        <NavBar/>
+        <NavBar clicked={this.handleClick} active={this.state.active}/>
         <main className={classes.main} style={{padding:8}}>
           <Grid container spacing={16} className={classes.container}>
             {this.props.children}
