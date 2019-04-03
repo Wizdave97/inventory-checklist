@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import * as serviceWorker from './serviceWorker';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import { authReducer, inventoryReducer } from './store/reducers';
+import { red } from '@material-ui/core/colors';
 
 
 const rootReducer=combineReducers({
@@ -39,6 +40,9 @@ const theme = createMuiTheme({
     },
     secondary:{
       main:'#ff8f00'
+    },
+    error:{
+      main:red[500]
     }
   }
 })

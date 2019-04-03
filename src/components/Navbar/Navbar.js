@@ -3,7 +3,7 @@ import {AppBar, Toolbar, Typography, Button, IconButton} from '@material-ui/core
 import Fade from '@material-ui/core/Fade';
 import {withStyles} from '@material-ui/core/styles';
 import  MenuIcon  from '@material-ui/icons/Menu';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const styles = theme =>({
@@ -51,7 +51,7 @@ const navBar = props =>{
             onClick={()=>props.clicked(0)}
             color='inherit'
             className={classes.button}
-            component={NavLink}
+            component={Link}
             to="/inventory"
             size="medium">Inventory</Button>
           <Button variant="outlined"
@@ -59,7 +59,7 @@ const navBar = props =>{
             onClick={()=>props.clicked(1)}
             color='inherit'
             className={classes.button}
-            component={NavLink}
+            component={Link}
             to="/addInventory"
             size="medium">Add Inventory</Button>
           </React.Fragment>

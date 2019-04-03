@@ -3,6 +3,7 @@ import NavBar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom'
 
 const styles= theme=>({
   main:{
@@ -38,7 +39,7 @@ class Layout extends Component {
       <React.Fragment>
         <NavBar clicked={this.handleClick} active={this.state.active}/>
         <main className={classes.main} style={{padding:8}}>
-          <Grid container spacing={16} className={classes.container}>
+          <Grid justify="center" container spacing={16} className={classes.container}>
             {this.props.children}
           </Grid>
         </main>
