@@ -106,7 +106,6 @@ class Inventory extends Component {
           })}
         </Grid>
         <Grid container
-
           justify="center"
           direction="row"
           alignItems="center">

@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { AddCircle, RemoveCircle} from '@material-ui/icons';
 import { connect } from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import * as actions from '../../store/actions/inventoryActions';
+import * as actionTypes from '../../store/actions/actionTypes';
 
 const styles = theme =>({
   root:{
@@ -30,7 +32,8 @@ class InventoryItem extends Component {
     inventoryItem:null,
     loading:true
   }
-  componentDidMount(){
+
+  updateState=()=>{
     let id =Number(this.props.match.params.id)
     for (let inventory of this.props.inventory){
       if(inventory.id===id){
@@ -41,6 +44,18 @@ class InventoryItem extends Component {
         break;
       }
     }
+  }
+  componentDidMount(){
+    this.updateState()
+  }
+
+  handleAddQuantity =()=>{
+    this.props.onIncreaseQuantity(actionTypes.INCREASE_QUANTITY,this.props.match.params.id)
+    this.updateState();
+  }
+  handleDecreaseQuantity =() =>{
+    this.props.onDecreaseQuantity(actionTypes.DECREASE_QUANTITY,this.props.match.params.id)
+    this.updateState();
   }
 
   render(){
@@ -68,10 +83,10 @@ class InventoryItem extends Component {
                 </CardContent>
               </CardActionArea>
               <CardActions>
-                <Button size="small" color="secondary">
+                <Button size="small" color="secondary"  onClick={()=> this.handleDecreaseQuantity()}>
                   <RemoveCircle/><Typography variant="srOnly">Remove</Typography>
                 </Button>
-                <Button size="small" color="secondary">
+                <Button size="small" color="secondary" onClick={()=> this.handleAddQuantity()}>
                   <AddCircle/><Typography variant="srOnly">Add</Typography>
                 </Button>
               </CardActions>
@@ -84,9 +99,7 @@ class InventoryItem extends Component {
             xs={12}
             sm={8}
             md={8}>
-
               {item}
-
       </Grid>
     )
   }
@@ -94,4 +107,8 @@ class InventoryItem extends Component {
 const mapStateToProps= state =>({
   inventory:state.inventory.inventory
 })
-export default connect(mapStateToProps)(withStyles(styles)(InventoryItem));
+const mapDispatchToProps = dispatch =>({
+  onIncreaseQuantity: (type,id)=> dispatch(actions.increaseQuantity(type,id)),
+  onDecreaseQuantity: (type,id)=> dispatch(actions.decreaseQuantity(type,id))
+})
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(InventoryItem));

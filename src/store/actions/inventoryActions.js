@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
-export const addInventorySync = (action) =>{
+export const addInventorySync = (type) =>{
   return {
-    type:action
+    type:type
   }
 }
 
@@ -17,5 +17,18 @@ export const addInventory = (data)=>{
     }).catch(err=>{
       dispatch(addInventorySync(actionTypes.ADD_INVENTORY_FAIL))
     })
+  }
+}
+
+export const increaseQuantity = (type,id) =>{
+  return {
+    type:type,
+    value:id
+  }
+}
+export const decreaseQuantity = (type,id) =>{
+  return {
+    type:type,
+    value:id
   }
 }
