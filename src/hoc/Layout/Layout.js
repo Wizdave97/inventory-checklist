@@ -3,12 +3,12 @@ import NavBar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { withRouter } from 'react-router-dom'
+
 
 const styles= theme=>({
   main:{
-    minHeight:'calc(100% - 234px)',
-    marginTop:'20px',
+    minHeight:'calc(100% - 150px)',
+    marginTop:'70px',
     display:'flex',
     flexWrap:'wrap'
   },
@@ -25,7 +25,7 @@ const styles= theme=>({
 })
 class Layout extends Component {
   state={
-    active:null
+    active:0
   }
   handleClick =(val)=>{
     this.setState({

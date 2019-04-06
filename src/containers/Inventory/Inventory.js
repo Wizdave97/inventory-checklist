@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Grid ,Typography,InputBase, Divider, Paper, Card, CardActionArea, CardMedia, CardContent, CardActions, Button, IconButton} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { Edit, Delete, Search } from '@material-ui/icons'
+import { Edit, Delete, Search } from '@material-ui/icons';
+import { connect } from 'react-redux';
 
 const styles= theme =>({
   card:{
@@ -36,33 +37,7 @@ const styles= theme =>({
 class Inventory extends Component {
   state={
     filters:['all','utensils','fruit','vegetables','cereal','meat','grain','liquid','spice','equipment'],
-    currentFilter:'all',
-    inventory:[
-      {
-        name:'Bannana',
-        quantity:300,
-        unit:'Oz',
-        category:'fruit'
-      },
-      {
-        name:'Bannana',
-        quantity:300,
-        unit:'Oz',
-        category:'fruit'
-      },
-      {
-        name:'Bannana',
-        quantity:300,
-        unit:'Oz',
-        category:'fruit'
-      },
-      {
-        name:'Bannana',
-        quantity:300,
-        unit:'Oz',
-        category:'fruit'
-      },
-    ]
+    currentFilter:'all'
   }
   handleFilter= (target,name) =>{
     this.setState({
@@ -70,22 +45,27 @@ class Inventory extends Component {
     })
 
   }
+  viewItem = (id)=>{
+    this.props.history.push(`/viewItem/${id}`)
+  }
 
   render() {
     const { classes } = this.props
     let inventory=null
-    if(this.state.inventory){
-      inventory=this.state.inventory.map((inventory,index)=>{
+    if(this.props.inventory){
+      inventory=this.props.inventory.map((inventory,index)=>{
         return(
           <Grid key={index} item xs={12} sm={6} md={3} lg={3}>
-          <Card className={classes.card}>
-                  <CardActionArea>
+          <Card className={classes.card} >
+                  <CardActionArea
+                    onClick={()=>this.viewItem(inventory.id)}>
                     <CardMedia
                       component="img"
                       alt={inventory.name}
                       className={classes.media}
                       image="/assets/tile.jpg"
                       title="Food"
+
                       />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
@@ -143,5 +123,7 @@ class Inventory extends Component {
     )
   }
 }
-
-export default withStyles(styles)(Inventory);
+const mapStateToProps= state=>({
+  inventory:state.inventory.inventory
+})
+export default connect(mapStateToProps)(withStyles(styles)(Inventory));

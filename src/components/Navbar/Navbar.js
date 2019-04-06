@@ -19,6 +19,16 @@ const styles = theme =>({
       display:'none'
     }
   },
+  logo:{
+    width:'60px',
+    height:'54px',
+    boxSizing:'border-box',
+    padding:'2px'
+  },
+  img:{
+    width:'100%',
+    height:'50px'
+  },
   hamburger:{
     margin:theme.spacing.unit,
     '@media screen and (min-width:600px)':{
@@ -41,13 +51,14 @@ const navBar = props =>{
   const { classes } = props;
   let location=window.location.pathname
   return(
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Toolbar className={classes.root}>
+        <div className={classes.logo}><img  className={classes.img} src='/assets/logo.svg' alt='inventory control'/></div>
         <Typography variant="h4" className={classes.title} color="inherit">Inventory Control</Typography>
         <Fade in={true} timeout={{enter:10,exit:10}}>
           <React.Fragment>
           <Button variant="outlined"
-            classes={location==='/inventory'||props.active===0?{root:classes.activePage}:{root:''}}
+            classes={location==='/inventory' && props.active===0?{root:classes.activePage}:{root:''}}
             onClick={()=>props.clicked(0)}
             color='inherit'
             className={classes.button}
@@ -55,7 +66,7 @@ const navBar = props =>{
             to="/inventory"
             size="medium">Inventory</Button>
           <Button variant="outlined"
-            classes={location==='/addInventory'||props.active===1?{root:classes.activePage}:{root:''}}
+            classes={location==='/addInventory' && props.active===1?{root:classes.activePage}:{root:''}}
             onClick={()=>props.clicked(1)}
             color='inherit'
             className={classes.button}
