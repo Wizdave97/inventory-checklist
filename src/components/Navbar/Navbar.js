@@ -35,9 +35,12 @@ const styles = theme =>({
       display:'none'
     }
   },
-  '@media screen and (max-width:370px)':{
+  '@media screen and (max-width:464px)':{
     title:{
-      fontSize:'1.8em'
+      fontSize:'1.4em'
+    },
+    logo:{
+      width:'40px'
     }
   },
   activePage:{
@@ -54,7 +57,7 @@ const navBar = props =>{
     <AppBar position="fixed">
       <Toolbar className={classes.root}>
         <div className={classes.logo}><img  className={classes.img} src='/assets/logo.svg' alt='inventory control'/></div>
-        <Typography variant="h4" className={classes.title} color="inherit">Inventory Control</Typography>
+        <Typography variant="h4" className={classes.title} color="inherit">Inventory Checklist</Typography>
         <Fade in={true} timeout={{enter:10,exit:10}}>
           <React.Fragment>
           <Button variant="outlined"

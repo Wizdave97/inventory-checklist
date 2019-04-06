@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 const styles= theme=>({
   main:{
     minHeight:'calc(100% - 150px)',
-    marginTop:'70px',
+    marginTop:'75px',
     display:'flex',
     flexWrap:'wrap'
   },
@@ -20,6 +20,16 @@ const styles= theme=>({
       width:'900px',
       marginLeft:'auto',
       marginRight:'auto'
+    }
+  },
+  '@media screen and (min-width:602px) and (max-width:720px)':{
+    main:{
+      marginTop:'110px'
+    }
+  },
+  '@media screen and (max-width:344px)':{
+    main:{
+      marginTop:'122px'
     }
   }
 })

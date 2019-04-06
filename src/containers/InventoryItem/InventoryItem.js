@@ -91,7 +91,6 @@ class InventoryItem extends Component {
                 </Button>
               </CardActions>
             </Card>
-
       )
     }
     return(
