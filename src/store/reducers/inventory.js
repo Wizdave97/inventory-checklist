@@ -1,36 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 const initialState={
-  inventory:[
-    {
-      name:'Bannana',
-      quantity:300,
-      unit:'Oz',
-      category:'fruit',
-      id:1
-    },
-    {
-      name:'Bannana',
-      quantity:300,
-      unit:'Oz',
-      category:'fruit',
-      id:2
-    },
-    {
-      name:'Bannana',
-      quantity:300,
-      unit:'Oz',
-      category:'fruit',
-      id:3
-    },
-    {
-      name:'Bannana',
-      quantity:300,
-      unit:'Oz',
-      category:'fruit',
-      id:4
-    }
-  ],
+  inventory:null,
   loading:false,
   error:null,
   selectedItem:null,
@@ -68,6 +39,9 @@ const decreaseQuantity = (state,id)=>{
 const reducer= (state=initialState,action)=>{
 
   switch (action.type){
+    case actionTypes.FETCH_INVENTORY: return updateObject(state,{loading:true})
+    case actionTypes.FETCH_INVENTORY_SUCCESS: return updateObject(state,{inventory:action.value,loading:false,error:false})
+    case actionTypes.FETCH_INVENTORY_FAIL: return updateObject(state,{loading:false,error:true})
     case actionTypes.ADD_INVENTORY :return updateObject(state,{addInventory:true})
     case actionTypes.ADD_INVENTORY_SUCCESS :return updateObject(state,{addInventory:false,addInventorySuccess:true,addInventoryFail:false})
     case actionTypes.ADD_INVENTORY_FAIL: return updateObject(state,{addInventory:false,addInventoryFail:true})

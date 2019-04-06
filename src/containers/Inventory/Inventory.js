@@ -3,6 +3,7 @@ import { Grid ,Typography,InputBase, Divider, Paper, Card, CardActionArea, CardM
 import { withStyles } from '@material-ui/core/styles';
 import { Edit, Delete, Search } from '@material-ui/icons';
 import { connect } from 'react-redux';
+import * as actions from '../../store/actions/inventoryActions';
 
 const styles= theme =>({
   card:{
@@ -38,6 +39,9 @@ class Inventory extends Component {
   state={
     filters:['all','utensils','fruit','vegetables','cereal','meat','grain','liquid','spice','equipment'],
     currentFilter:'all'
+  }
+  componentDidMount(){
+    this.props.onFetchInventory();
   }
   handleFilter= (target,name) =>{
     this.setState({
@@ -125,4 +129,7 @@ class Inventory extends Component {
 const mapStateToProps= state=>({
   inventory:state.inventory.inventory
 })
-export default connect(mapStateToProps)(withStyles(styles)(Inventory));
+const mapDispatchToProps= dispatch=>({
+  onFetchInventory: ()=> dispatch(actions.fetchInventory())
+})
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Inventory));
