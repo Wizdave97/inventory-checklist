@@ -36,6 +36,14 @@ const decreaseQuantity = (state,id)=>{
   }
 }
 
+const deleteInventory =(state,id)=>{
+  let newState={...state,inventory:[...state.inventory]};
+  let { inventory } = newState;
+  inventory.filter(([inventoryId,inventory])=>{
+    return id!==inventoryId
+  })
+  return updateObject(state,newState)
+}
 const reducer= (state=initialState,action)=>{
 
   switch (action.type){
@@ -47,6 +55,7 @@ const reducer= (state=initialState,action)=>{
     case actionTypes.ADD_INVENTORY_FAIL: return updateObject(state,{addInventory:false,addInventoryFail:true})
     case actionTypes.INCREASE_QUANTITY: return increaseQuantity(state, action.value)
     case actionTypes.DECREASE_QUANTITY: return decreaseQuantity(state,action.value)
+    case actionTypes.DELETE_INVENTORY: return deleteInventory(state,action.value)
     default: return state
   }
 

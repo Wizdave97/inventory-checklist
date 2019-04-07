@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Edit, Delete, Search } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/inventoryActions';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const styles= theme =>({
   card:{
@@ -56,16 +57,18 @@ class Inventory extends Component {
   render() {
     const { classes } = this.props
     let inventory=null
+    if(this.props.loading) inventory=<Spinner/>
+    if(this.props.error) inventory=(<Typography variant='h3' align='center'> An Error Occured while fetching the inventory</Typography>)
     if(this.props.inventory){
-      inventory=this.props.inventory.map((inventory,index)=>{
+      inventory=this.props.inventory.map(([id,inventory])=>{
         return(
-          <Grid key={index} item xs={12} sm={6} md={3} lg={3}>
+          <Grid key={id} item xs={12} sm={6} md={3} lg={3}>
           <Card className={classes.card} >
                   <CardActionArea
-                    onClick={()=>this.viewItem(inventory.id)}>
+                    onClick={()=>this.viewItem(id)}>
                     <CardMedia
                       component="img"
-                      alt={inventory.name}
+                      alt={inventory[0].name}
                       className={classes.media}
                       image="/assets/tile.jpg"
                       title="Food"
@@ -73,10 +76,10 @@ class Inventory extends Component {
                       />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
-                        {inventory.name}
+                        {inventory[0].name}
                       </Typography>
                       <Typography component="p">
-                        Quantity <strong>{inventory.quantity} {inventory.unit}</strong>
+                        Quantity <strong>{inventory[0].quantity} {inventory[0].unit}</strong>
                       </Typography>
                     </CardContent>
                   </CardActionArea>
@@ -84,7 +87,7 @@ class Inventory extends Component {
                     <Button size="small" color="secondary">
                       <Edit/>Edit
                     </Button>
-                    <Button size="small" color="secondary">
+                    <Button size="small" color="secondary" onClick={()=>this.props.onDeleteInventory(id)}>
                       <Delete/>Delete
                     </Button>
                   </CardActions>
@@ -127,9 +130,12 @@ class Inventory extends Component {
   }
 }
 const mapStateToProps= state=>({
-  inventory:state.inventory.inventory
+  inventory:state.inventory.inventory,
+  loading:state.inventory.loading,
+  error:state.inventory.error
 })
 const mapDispatchToProps= dispatch=>({
-  onFetchInventory: ()=> dispatch(actions.fetchInventory())
+  onFetchInventory: ()=> dispatch(actions.fetchInventory()),
+  onDeleteInventory: (id)=>dispatch(actions.deleteInventory(id))
 })
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Inventory));

@@ -48,3 +48,24 @@ export const fetchInventory=()=>{
     }).catch(err=> dispatch(fetchInventorySync(actionTypes.FETCH_INVENTORY_FAIL)))
   }
 }
+
+export const deleteInventorySync= (type,id)=>{
+  return{
+    type:type,
+    value:id
+  }
+}
+
+export const deleteInventory =(id)=>{
+  return dispatch =>{
+    let url =`https://soup-kitchen-8a966.firebaseio.com/inventory/${id}.json`;
+    fetch(url,{
+      method:'DELETE'
+    }).then(response=>{
+      dispatch(deleteInventorySync(actionTypes.DELETE_INVENTORY,id))
+      console.log(response)
+    }).catch(err=>{
+      dispatch(deleteInventorySync(actionTypes.DELETE_INVENTORY_FAIL,id))
+    })
+  }
+}
