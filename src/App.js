@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import Inventory from './containers/Inventory/Inventory';
 import AddInventory from './containers/AddInventory/AddInventory';
 import InventoryItem from './containers/InventoryItem/InventoryItem';
+import Auth from './containers/Auth/Auth';
 class App extends Component {
   render() {
     return (
@@ -12,7 +13,8 @@ class App extends Component {
               <Switch>
                   <Route exact path="/inventory" component={Inventory}/>
                   <Route exact path="/addInventory" component={AddInventory}/>
-                  <Route  path="/viewItem/:id" component={InventoryItem}/>
+                  <Route  exact path="/viewItem/:id" component={InventoryItem}/>
+                  <Route exact path='/auth' component={Auth}/>
               </Switch>
         </Layout>
     );

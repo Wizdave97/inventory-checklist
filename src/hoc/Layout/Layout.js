@@ -44,7 +44,7 @@ class Layout extends Component {
   }
 
   render () {
-    const {classes}=this.props
+    const {classes}=this.props;
     return (
       <React.Fragment>
         <NavBar clicked={this.handleClick} active={this.state.active}/>
