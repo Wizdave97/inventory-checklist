@@ -36,9 +36,9 @@ class InventoryItem extends Component {
   updateState=()=>{
     let id =Number(this.props.match.params.id)
     for (let inventory of this.props.inventory){
-      if(inventory.id===id){
+      if(inventory[0]===id){
         this.setState({
-          inventoryItem:inventory,
+          inventoryItem:inventory[1][0],
           loading:false
         })
         break;

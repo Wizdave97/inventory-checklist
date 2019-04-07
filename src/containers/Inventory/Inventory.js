@@ -90,6 +90,7 @@ class Inventory extends Component {
                     <Button size="small" color="secondary" onClick={()=>this.props.onDeleteInventory(id)}>
                       <Delete/>Delete
                     </Button>
+                    {this.props.deleteInventoryFail?<Typography variant='body1'>Delete failed try again</Typography>:''}
                   </CardActions>
                 </Card>
               </Grid>)
@@ -132,7 +133,8 @@ class Inventory extends Component {
 const mapStateToProps= state=>({
   inventory:state.inventory.inventory,
   loading:state.inventory.loading,
-  error:state.inventory.error
+  error:state.inventory.error,
+  deleteInventoryFail:state.inventory.deleteInventoryFail
 })
 const mapDispatchToProps= dispatch=>({
   onFetchInventory: ()=> dispatch(actions.fetchInventory()),

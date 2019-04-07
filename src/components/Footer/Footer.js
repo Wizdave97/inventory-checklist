@@ -5,7 +5,7 @@ const styles= theme => ({
   root:{
     display:'flex',
     flexWrap:'wrap',
-    height:'150px',
+    height:'60px',
     background:theme.palette.primary.dark
   }
 })

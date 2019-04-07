@@ -7,7 +7,8 @@ const initialState={
   selectedItem:null,
   addInventory:false,
   addInventorySuccess:false,
-  addInventoryFail:false
+  addInventoryFail:false,
+  deleteInventoryFail:false
 
 }
 const increaseQuantity = (state,id)=>{
@@ -56,6 +57,7 @@ const reducer= (state=initialState,action)=>{
     case actionTypes.INCREASE_QUANTITY: return increaseQuantity(state, action.value)
     case actionTypes.DECREASE_QUANTITY: return decreaseQuantity(state,action.value)
     case actionTypes.DELETE_INVENTORY: return deleteInventory(state,action.value)
+    case actionTypes.DELETE_INVENTORY_FAIL: return updateObject(state,{deleteInventoryFail:true})
     default: return state
   }
 

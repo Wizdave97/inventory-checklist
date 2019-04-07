@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles= theme=>({
   main:{
-    minHeight:'calc(100% - 150px)',
+    minHeight:'calc(100% - 60px)',
     marginTop:'75px',
     display:'flex',
     flexWrap:'wrap'
