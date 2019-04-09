@@ -38,15 +38,15 @@ const styles= theme =>({
 })
 class Inventory extends Component {
   state={
-    filters:['all','utensils','fruit','vegetables','cereal','meat','grain','liquid','spice','equipment'],
-    currentFilter:'all'
+    filters:['','utensils','fruit','vegetables','cereal','meat','grain','liquid','spice','equipment'],
+    currentFilter:''
   }
   componentDidMount(){
     this.props.onFetchInventory();
   }
   handleFilter= (target,name) =>{
     this.setState({
-      currentFilter:name.toUpperCase()
+      currentFilter:name.toLowerCase()
     })
 
   }
@@ -57,45 +57,55 @@ class Inventory extends Component {
   render() {
     const { classes } = this.props
     let inventory=null
-    if(this.props.loading) inventory=<Spinner/>
-    if(this.props.error) inventory=(<Typography variant='h3' align='center'> An Error Occured while fetching the inventory</Typography>)
-    if(this.props.inventory){
-      inventory=this.props.inventory.map(([id,inventory])=>{
-        //console.log(inventory)
-        return(
-          <Grid key={id} item xs={12} sm={6} md={3} lg={3}>
-          <Card className={classes.card} >
-                  <CardActionArea
-                    onClick={()=>this.viewItem(id)}>
-                    <CardMedia
-                      component="img"
-                      alt={inventory.item_name}
-                      className={classes.media}
-                      image="/assets/tile.jpg"
-                      title="Food"
-
-                      />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {inventory.item_name}
-                      </Typography>
-                      <Typography component="p">
-                        Quantity <strong>{inventory.quantity} {inventory.unit}</strong>
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions>
-                    <Button size="small" color="secondary">
-                      <Edit/>Edit
-                    </Button>
-                    <Button size="small" color="secondary" onClick={()=>this.props.onDeleteInventory(id)}>
-                      <Delete/>Delete
-                    </Button>
-                    {this.props.deleteInventoryFail?<Typography variant='body1'>Delete failed tryagain</Typography>:''}
-                  </CardActions>
-                </Card>
-              </Grid>)
+    let match= new RegExp(`${this.state.currentFilter}`,'gi');
+    let nowShowing=null;
+    if(this.props.inventory) nowShowing=[...this.props.inventory];
+    if (this.state.currentFilter){
+      nowShowing=nowShowing.filter(([id,obj])=>{
+        return match.test(obj.category)
       })
+    }
+    if(this.props.loading) inventory=<Spinner/>
+    if(nowShowing){
+      if(nowShowing.length!==0){
+        inventory=nowShowing.map(([id,inventory])=>{
+          //console.log(inventory)
+          return(
+            <Grid key={id} item xs={12} sm={6} md={3} lg={3}>
+            <Card className={classes.card} >
+                    <CardActionArea
+                      onClick={()=>this.viewItem(id)}>
+                      <CardMedia
+                        component="img"
+                        alt={inventory.item_name}
+                        className={classes.media}
+                        image="/assets/tile.jpg"
+                        title="Food"
+
+                        />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {inventory.item_name}
+                        </Typography>
+                        <Typography component="p">
+                          Quantity <strong>{inventory.quantity} {inventory.unit}</strong>
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                      <Button size="small" color="secondary">
+                        <Edit/>Edit
+                      </Button>
+                      <Button size="small" color="secondary" onClick={()=>this.props.onDeleteInventory(id)}>
+                        <Delete/>Delete
+                      </Button>
+                      {this.props.deleteInventoryFail?<Typography variant='body1'>Delete failed tryagain</Typography>:''}
+                    </CardActions>
+                  </Card>
+                </Grid>)
+        })
+      }
+
     }
     return(
       <React.Fragment>
@@ -111,7 +121,7 @@ class Inventory extends Component {
                             color="default"
                             onClick={(event)=> this.handleFilter(event.target,filter)}
                             classes={this.state.currentFilter.toUpperCase()===filter.toUpperCase()?{label:classes.activeFilter}:{label:''}}
-                            >{filter}</Button>)
+                            >{filter?filter:'all'}</Button>)
           })}
         </Grid>
         <Grid container
