@@ -61,6 +61,7 @@ class Inventory extends Component {
     if(this.props.error) inventory=(<Typography variant='h3' align='center'> An Error Occured while fetching the inventory</Typography>)
     if(this.props.inventory){
       inventory=this.props.inventory.map(([id,inventory])=>{
+        //console.log(inventory)
         return(
           <Grid key={id} item xs={12} sm={6} md={3} lg={3}>
           <Card className={classes.card} >
@@ -68,7 +69,7 @@ class Inventory extends Component {
                     onClick={()=>this.viewItem(id)}>
                     <CardMedia
                       component="img"
-                      alt={inventory[0].name}
+                      alt={inventory.item_name}
                       className={classes.media}
                       image="/assets/tile.jpg"
                       title="Food"
@@ -76,10 +77,10 @@ class Inventory extends Component {
                       />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
-                        {inventory[0].name}
+                        {inventory.item_name}
                       </Typography>
                       <Typography component="p">
-                        Quantity <strong>{inventory[0].quantity} {inventory[0].unit}</strong>
+                        Quantity <strong>{inventory.quantity} {inventory.unit}</strong>
                       </Typography>
                     </CardContent>
                   </CardActionArea>
@@ -90,7 +91,7 @@ class Inventory extends Component {
                     <Button size="small" color="secondary" onClick={()=>this.props.onDeleteInventory(id)}>
                       <Delete/>Delete
                     </Button>
-                    {this.props.deleteInventoryFail?<Typography variant='body1'>Delete failed try again</Typography>:''}
+                    {this.props.deleteInventoryFail?<Typography variant='body1'>Delete failed tryagain</Typography>:''}
                   </CardActions>
                 </Card>
               </Grid>)

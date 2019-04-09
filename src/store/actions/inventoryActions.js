@@ -10,7 +10,11 @@ export const fetchInventorySync = (type,value=null) =>{
     value:value
   }
 }
-
+export const addInventoryComplete =()=>{
+  return {
+    type:actionTypes.ADD_INVENTORY_COMPLETE
+  }
+}
 export const addInventory = (data)=>{
   return dispatch =>{
     dispatch(addInventorySync(actionTypes.ADD_INVENTORY))
@@ -18,7 +22,6 @@ export const addInventory = (data)=>{
     fetch(url,{method:'POST',body:JSON.stringify(data)}).then(response=>{
       return response.json()
     }).then(response=>{
-      console.log(response)
       dispatch(addInventorySync(actionTypes.ADD_INVENTORY_SUCCESS))
     }).catch(err=>{
       dispatch(addInventorySync(actionTypes.ADD_INVENTORY_FAIL))

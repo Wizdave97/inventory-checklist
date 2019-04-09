@@ -15,10 +15,9 @@ const increaseQuantity = (state,id)=>{
   let newState=updateObject(state,{})
   let {inventory}= newState
   for(let i=0;i<inventory.length;i++){
-    if(inventory[i].id==id){
-      let quantity=inventory[i].quantity
-      let objToIncrease=updateObject(inventory[i],{quantity:quantity+1})
-      inventory[i]=objToIncrease
+    if(inventory[i][0]===id){
+      let quantity=Number(inventory[i][1].quantity)
+      inventory[i][1].quantity=quantity+1
       return updateObject(state,newState)
     }
   }
@@ -28,10 +27,10 @@ const decreaseQuantity = (state,id)=>{
   let newState=updateObject(state,{})
   let {inventory}= newState
   for(let i=0;i<inventory.length;i++){
-    if(inventory[i].id==id){
-      let quantity=inventory[i].quantity
-      let objToIncrease=updateObject(inventory[i],{quantity:quantity-1})
-      inventory[i]=objToIncrease
+    if(inventory[i][0]===id){
+      let quantity=Number(inventory[i][1].quantity)
+      if(quantity<1) return updateObject(state,newState)
+      inventory[i][1].quantity=quantity-1
       return updateObject(state,newState)
     }
   }
@@ -40,10 +39,13 @@ const decreaseQuantity = (state,id)=>{
 const deleteInventory =(state,id)=>{
   let newState={...state,inventory:[...state.inventory]};
   let { inventory } = newState;
-  inventory.filter(([inventoryId,inventory])=>{
-    return id!==inventoryId
-  })
-  return updateObject(state,newState)
+  let newInventory=[];
+  for (let [inventoryId,obj] of inventory){
+    if(id!==inventoryId){
+      newInventory.push([inventoryId,obj])
+    }
+  }
+  return updateObject(state,{...newState,inventory:newInventory})
 }
 const reducer= (state=initialState,action)=>{
 
@@ -58,6 +60,7 @@ const reducer= (state=initialState,action)=>{
     case actionTypes.DECREASE_QUANTITY: return decreaseQuantity(state,action.value)
     case actionTypes.DELETE_INVENTORY: return deleteInventory(state,action.value)
     case actionTypes.DELETE_INVENTORY_FAIL: return updateObject(state,{deleteInventoryFail:true})
+    case actionTypes.ADD_INVENTORY_COMPLETE: return updateObject(state,{addInventorySuccess:false})
     default: return state
   }
 

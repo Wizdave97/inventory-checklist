@@ -34,11 +34,12 @@ class InventoryItem extends Component {
   }
 
   updateState=()=>{
-    let id =Number(this.props.match.params.id)
+    let id =this.props.match.params.id
+
     for (let inventory of this.props.inventory){
       if(inventory[0]===id){
         this.setState({
-          inventoryItem:inventory[1][0],
+          inventoryItem:inventory[1],
           loading:false
         })
         break;
@@ -68,7 +69,7 @@ class InventoryItem extends Component {
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  alt={inventoryItem.name}
+                  alt={inventoryItem.item_name}
                   className={classes.media}
                   image="/assets/tile.jpg"
                   title="Food"

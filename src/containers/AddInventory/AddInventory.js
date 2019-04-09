@@ -36,12 +36,17 @@ class AddInventory extends Component {
     category:categories[0]
   }
   componentDidUpdate(){
-    if(this.props.addInventorySuccess) this.props.history.push('/inventory')
+    if(this.props.addInventorySuccess) {
+      this.props.onAddInventoryComplete()
+      this.props.history.push('/inventory')
+    }
+
   }
 
-  handleUnitChange= (unit) =>{
+  handleUnitChange= (event) =>{
+    event.preventDefault();
     this.setState({
-      unit:unit
+      unit:event.target.value
     })
     //console.log(this.state.unit)
   }
@@ -105,7 +110,7 @@ class AddInventory extends Component {
         }}
         helperText="Please select your currency"
         variant="outlined"
-        onChange={(event)=>this.handleUnitChange(event.target.value)}
+        onChange={(event)=>this.handleUnitChange(event)}
         >
         {units.map(unit=>{
           return(<MenuItem key={unit} value={unit}>
@@ -192,6 +197,7 @@ const mapStateToProps= state=>({
   addInventorySuccess:state.inventory.addInventorySuccess
 })
 const mapDispatchToProps = dispatch =>({
-  onSubmitForm: (data)=>dispatch(actions.addInventory(data))
+  onSubmitForm: (data)=>dispatch(actions.addInventory(data)),
+  onAddInventoryComplete: ()=> dispatch(actions.addInventoryComplete())
 })
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(AddInventory));
