@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import formSerialize from 'form-serialize';
 import { Grid, Typography, TextField, Button} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { validityTracker } from '../../Utils/Utility';
 
 const styles= theme =>({
   form:{
@@ -35,10 +36,32 @@ const styles= theme =>({
          isSignUp:!state.isSignUp
      }))
    }
+   submitAuthForm = (event) =>{
+     let inputs =document.querySelectorAll('input')
+     for (let input of inputs){
+       let validityTest= new validityTracker(input)
+       validityTest.checkValidity();
+     }
+     if(this.state.isSignUp){
+       let fpassword=document.getElementById('password')
+       let cpassword= document.getElementById('passwordC')
+       if(fpassword.value!==cpassword.value) {
+         cpassword.setCustomValidity('passwords do not match')
+       }
+       else{
+         cpassword.setCustomValidity('')
+
+       }
+     }
+
+     let form=document.querySelector('form');
+     let formData=formSerialize(form,{hash:true})
+     let authData={...formData,returnSecureToken:true}
+   }
    render(){
      const { classes } = this.props
      let form=(
-       <React.Fragment>
+       <form className={classes.form}>
          <TextField
            className={classes.textField}
            required
@@ -62,11 +85,19 @@ const styles= theme =>({
              fullWidth={true}
              margin='normal'
              variant='outlined'/>
-       </React.Fragment>
+             <Button
+                onClick={(event)=> this.submitAuthForm(event)}
+                type='submit'
+                size='large'
+                color='secondary'
+                className={classes.button}
+                variant='contained'
+                fullWidth={true}>Login</Button>
+            </form>
      )
      if(this.state.isSignUp){
        form=(
-         <React.Fragment>
+         <form className={classes.form}>
            <TextField
              className={classes.textField}
              required
@@ -112,7 +143,15 @@ const styles= theme =>({
              fullWidth={true}
              margin='normal'
              variant='outlined'/>
-          </React.Fragment>
+             <Button
+                onClick={(event)=> this.submitAuthForm(event)}
+                type='submit'
+                size='large'
+                color='secondary'
+                className={classes.button}
+                variant='contained'
+                fullWidth={true}>Sign Up</Button>
+            </form>
        )
      }
      return (
@@ -121,20 +160,13 @@ const styles= theme =>({
          sm={6}
          md={6}>
 
-         <form className={classes.form}>
+
            <Typography  variant='h3'
              color='secondary'
              align="center"
              className={classes.text}
              gutterBottom>{this.state.isSignUp?"Hello, you're welcome":"Welcome Back"}</Typography>
               {form}
-           <Button
-              type='submit'
-              size='large'
-              color='secondary'
-              className={classes.button}
-              variant='contained'
-              fullWidth={true}>{this.state.isSignUp?'Sign Up':'Login'}</Button>
             <Typography
               className={classes.text}
               align='center'
@@ -148,7 +180,7 @@ const styles= theme =>({
                 variant='outlined'>
                 {this.state.isSignUp?'Login':'Signup'}
               </Button></Typography>
-         </form>
+
 
        </Grid>
      )
