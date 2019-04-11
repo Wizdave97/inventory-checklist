@@ -1,54 +1,30 @@
-export function validityTracker(element) {
-  this.element=element
-  this.issues=[];
-}
 
-validityTracker.prototype.retrieve=function(){
-  return this.element.value;
-}
-validityTracker.prototype.addIssue=function(issue){
-  this.issues.push(issue)
-}
-validityTracker.prototype.trackPassword=function(){
-    let query= this.retrieve();
-    let upperCase=/[A-Z]/.test(query) || this.addIssue('Missing an upperCase character')
-    let specialChar=/[@!#$%&]/.test(query) ||this.addIssue('Missing on of these @ ! # $ % & ')
-    let digitTest=/\d/.test(query)||this.addIssue('missing a digit');
-    let lowerCaseTest=/[a-z]/.test(query)||this.addIssue('missing a lowercase character');
-}
-validityTracker.prototype.trackEmail= function(){
-  let query=this.retrieve();
-  let emailTest=/@/.test(query) ||this.addIssue('The email seems to be invalid')
-}
-validityTracker.prototype.checkValidity=function(){
-  let type= this.element.name;
-  if(type==='password'){
-    this.trackPassword();
-    switch(this.issues.length){
-      case 1:
-        this.element.setCustomValidity(this.issues[0]);
-        break;
-      case 2:
-        this.element.setCustomValidity(this.issues.join(','));
-        break;
-      case 3:
-        this.element.setCustomValidity(this.issues.join(','));
-        break;
-      default:
-        this.element.setCustomValidity('');
-        break;
+  export const  hasError=(element)=>{
+    if(element.disabled || element.type === 'file' || element.type === 'reset' || element.type === 'submit' || element.type === 'button') return null
+    let validity=element.validity
+    if(validity.valid) return null
+    if(validity.valueMissing) return 'Please fill in this field'
+    if(element.type==='email'){
+      if(validity.typeMismatch) return 'Please enter an email address'
     }
+    if(validity.tooShort) return 'Password should be atleast 8 chracters long'
+    if(validity.patternMismatch) {
+      return 'Please enter a valid email address'}
+    return null
   }
-  else if (type==='email'){
-    this.trackEmail();
-    switch(this.issues.length){
-      case 1:
-        this.element.setCustomValidity(this.issues[0]);
-        break;
-      default:
-        this.element.setCustomValidity('');
-        break;
-    }
+
+  export const  showError=(element,errorStatus)=>{
+      element.classList.add('error')
+      element.setAttribute('aria-describedby','errorMessagefor'+element.id)
+      let message=document.getElementById('errorMessagefor'+element.id)
+      if(message)  message.textContent=errorStatus
+      if(!message){
+        element.parentElement.insertAdjacentHTML('afterend',`<p class="errorText" id="errorMessagefor${element.id}">${errorStatus}</p>`)
+      }
   }
-  this.issues=[]
-}
+  export const  removeError=(element)=>{
+      element.classList.remove('error')
+      element.removeAttribute('aria-describedby')
+      let message=document.getElementById('errorMessagefor'+element.id)
+      if(message) message.parentNode.removeChild(message)
+  }
