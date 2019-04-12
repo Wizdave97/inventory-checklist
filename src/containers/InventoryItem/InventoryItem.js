@@ -50,13 +50,37 @@ class InventoryItem extends Component {
     this.updateState()
   }
 
-  handleAddQuantity =()=>{
+  handleAddQuantity =(quantity)=>{
     this.props.onIncreaseQuantity(actionTypes.INCREASE_QUANTITY,this.props.match.params.id)
     this.updateState();
   }
   handleDecreaseQuantity =() =>{
     this.props.onDecreaseQuantity(actionTypes.DECREASE_QUANTITY,this.props.match.params.id)
     this.updateState();
+  }
+  handleAddQuantityAsync=() =>{
+    let id=this.props.match.params.id,idToken=this.props.auth.idToken,quantity;
+    for(let i=0;i<this.props.inventory.length;i++){
+      if(this.props.inventory[i][0]===id){
+        quantity=Number(this.props.inventory[i][1].quantity)
+        break;
+      }
+    }
+    this.props.onIncreaseQuantityAsync(id,idToken,quantity)
+  }
+  handleDecreaseQuantityAsync=() =>{
+    let id=this.props.match.params.id,idToken=this.props.auth.idToken,quantity;
+    for(let i=0;i<this.props.inventory.length;i++){
+      if(this.props.inventory[i][0]===id){
+        quantity=Number(this.props.inventory[i][1].quantity)
+        break;
+      }
+    }
+    this.props.onDecreaseQuantityAsync(id,idToken,quantity)
+  }
+  componentWillUnmount(){
+    this.handleAddQuantityAsync();
+    this.handleDecreaseQuantityAsync();  
   }
 
   render(){
@@ -84,7 +108,7 @@ class InventoryItem extends Component {
                 </CardContent>
               </CardActionArea>
               <CardActions>
-                <Button size="small" color="secondary"  onClick={()=> this.handleDecreaseQuantity()}>
+                <Button size="small" color="secondary"  onClick={()=> this.handleDecreaseQuantity( )}>
                   <RemoveCircle/><Typography variant="srOnly">Remove</Typography>
                 </Button>
                 <Button size="small" color="secondary" onClick={()=> this.handleAddQuantity()}>
@@ -105,10 +129,13 @@ class InventoryItem extends Component {
   }
 }
 const mapStateToProps= state =>({
-  inventory:state.inventory.inventory
+  inventory:state.inventory.inventory,
+  auth:state.auth
 })
 const mapDispatchToProps = dispatch =>({
   onIncreaseQuantity: (type,id)=> dispatch(actions.increaseQuantity(type,id)),
+  onIncreaseQuantityAsync:(id,idToken,quantity)=>dispatch(actions.increaseQuantityAsync(id,idToken,quantity)),
+  onDecreaseQuantityAsync:(id,idToken,quantity)=>dispatch(actions.decreaseQuantityAsync(id,idToken,quantity)),
   onDecreaseQuantity: (type,id)=> dispatch(actions.decreaseQuantity(type,id))
 })
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(InventoryItem));

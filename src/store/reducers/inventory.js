@@ -57,6 +57,7 @@ const reducer= (state=initialState,action)=>{
     case actionTypes.ADD_INVENTORY_SUCCESS :return updateObject(state,{addInventory:false,addInventorySuccess:true,addInventoryFail:false})
     case actionTypes.ADD_INVENTORY_FAIL: return updateObject(state,{addInventory:false,addInventoryFail:true})
     case actionTypes.INCREASE_QUANTITY: return increaseQuantity(state, action.value)
+    case actionTypes.INCREASE_QUANTITY_FAIL: return state
     case actionTypes.DECREASE_QUANTITY: return decreaseQuantity(state,action.value)
     case actionTypes.DELETE_INVENTORY: return deleteInventory(state,action.value)
     case actionTypes.DELETE_INVENTORY_FAIL: return updateObject(state,{deleteInventoryFail:true})

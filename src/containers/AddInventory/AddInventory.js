@@ -59,7 +59,8 @@ class AddInventory extends Component {
     event.preventDefault();
     let form =document.getElementById('inventory');
     let inventoryData= formSerialize(form,{hash:true})
-    this.props.onSubmitForm(inventoryData)
+    inventoryData={...inventoryData,userId:this.props.auth.localId}
+    this.props.onSubmitForm(inventoryData,this.props.auth.idToken)
   }
 
   render() {
@@ -194,10 +195,11 @@ class AddInventory extends Component {
 const mapStateToProps= state=>({
   addInventory:state.inventory.addInventory,
   addInventoryFail:state.inventory.addInventoryFail,
-  addInventorySuccess:state.inventory.addInventorySuccess
+  addInventorySuccess:state.inventory.addInventorySuccess,
+  auth:state.auth
 })
 const mapDispatchToProps = dispatch =>({
-  onSubmitForm: (data)=>dispatch(actions.addInventory(data)),
+  onSubmitForm: (data,idToken)=>dispatch(actions.addInventory(data,idToken)),
   onAddInventoryComplete: ()=> dispatch(actions.addInventoryComplete())
 })
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(AddInventory));

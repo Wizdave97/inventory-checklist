@@ -19,7 +19,7 @@ export const authCheckTimeOut=(expiresIn)=>{
   }
 }
 export const authSuccess=(authData) =>{
-  localStorage.inventoryChecklist=JSON.stringify({idToken:authData.idToken,localId:authData.localId,expiresIn:new Date(new Date().getTime() + (authData.expiresIn * 1000))})
+
   return {
     type:actionTypes.AUTH_SUCCESS,
     value:authData
@@ -46,6 +46,7 @@ export const auth =(authData,isSignUp)=>{
     }).then(response=>response.json()).then(response=>{
       if (response.error) dispatch(authFail(response))
       else {
+        localStorage.inventoryChecklist=JSON.stringify({idToken:response.idToken,localId:response.localId,expiresIn:new Date(new Date().getTime() + (response.expiresIn * 1000))})
         dispatch(authSuccess(response))
         dispatch(authCheckTimeOut(response.expiresIn))
       }

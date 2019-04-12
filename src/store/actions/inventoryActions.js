@@ -15,10 +15,10 @@ export const addInventoryComplete =()=>{
     type:actionTypes.ADD_INVENTORY_COMPLETE
   }
 }
-export const addInventory = (data)=>{
+export const addInventory = (data,idToken)=>{
   return dispatch =>{
     dispatch(addInventorySync(actionTypes.ADD_INVENTORY))
-    let url=`https://soup-kitchen-8a966.firebaseio.com/inventory.json`
+    let url=`https://soup-kitchen-8a966.firebaseio.com/inventory.json?auth=${idToken}`
     fetch(url,{method:'POST',body:JSON.stringify(data)}).then(response=>{
       return response.json()
     }).then(response=>{
@@ -35,16 +35,47 @@ export const increaseQuantity = (type,id) =>{
     value:id
   }
 }
+export const increaseQuantityAsync= (id,idToken,quantity)=>{
+  quantity=Number(quantity)
+  return dispatch=>{
+    let url =`https://soup-kitchen-8a966.firebaseio.com/inventory/${id}/.json?auth=${idToken}`
+    fetch(url,{
+      method:'PATCH',
+      body:JSON.stringify({quantity:quantity})
+    }).then(response=>{
+      //console.log(response)
+    }).catch(err=>{
+      dispatch(increaseQuantity(actionTypes.INCREASE_QUANTITY_FAIL,id))
+    })
+  }
+}
+
+export const decreaseQuantityAsync= (id,idToken,quantity)=>{
+  quantity=Number(quantity)
+  return dispatch=>{
+    let url =`https://soup-kitchen-8a966.firebaseio.com/inventory/${id}/.json?auth=${idToken}`
+    fetch(url,{
+      method:'PATCH',
+      body:JSON.stringify({quantity:quantity})
+    }).then(response=>{
+      //console.log(response)
+    }).catch(err=>{
+      dispatch(increaseQuantity(actionTypes.INCREASE_QUANTITY_FAIL,id))
+    })
+  }
+}
+
 export const decreaseQuantity = (type,id) =>{
   return {
     type:type,
     value:id
   }
 }
-export const fetchInventory=()=>{
+export const fetchInventory=(idToken,userId)=>{
   return dispatch=>{
     dispatch(fetchInventorySync(actionTypes.FETCH_INVENTORY))
-    let url=`https://soup-kitchen-8a966.firebaseio.com/inventory.json`;
+    let queryParams=`?auth=${idToken}&orderBy="userId"&equalTo="${userId}"`;
+    let url=`https://soup-kitchen-8a966.firebaseio.com/inventory.json${queryParams}`;
     fetch(url).then(response=> response.json()).then(response=>{
       let inventory=Object.entries(response)
       dispatch(fetchInventorySync(actionTypes.FETCH_INVENTORY_SUCCESS, inventory))
@@ -59,14 +90,14 @@ export const deleteInventorySync= (type,id)=>{
   }
 }
 
-export const deleteInventory =(id)=>{
+export const deleteInventory =(id,idToken)=>{
   return dispatch =>{
-    let url =`https://soup-kitchen-8a966.firebaseio.com/inventory/${id}.json`;
+    let url =`https://soup-kitchen-8a966.firebaseio.com/inventory/${id}.json?auth=${idToken}`;
     fetch(url,{
       method:'DELETE'
     }).then(response=>{
       dispatch(deleteInventorySync(actionTypes.DELETE_INVENTORY,id))
-      console.log(response)
+      //console.log(response)
     }).catch(err=>{
       dispatch(deleteInventorySync(actionTypes.DELETE_INVENTORY_FAIL,id))
     })

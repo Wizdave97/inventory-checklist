@@ -42,7 +42,7 @@ class Inventory extends Component {
     currentFilter:''
   }
   componentDidMount(){
-    this.props.onFetchInventory();
+    this.props.onFetchInventory(this.props.auth.idToken,this.props.auth.localId);
   }
   handleFilter= (target,name) =>{
     this.setState({
@@ -96,7 +96,7 @@ class Inventory extends Component {
                       <Button size="small" color="secondary">
                         <Edit/>Edit
                       </Button>
-                      <Button size="small" color="secondary" onClick={()=>this.props.onDeleteInventory(id)}>
+                      <Button size="small" color="secondary" onClick={()=>this.props.onDeleteInventory(id,this.props.auth.idToken)}>
                         <Delete/>Delete
                       </Button>
                       {this.props.deleteInventoryFail?<Typography variant='body1'>Delete failed tryagain</Typography>:''}
@@ -145,10 +145,11 @@ const mapStateToProps= state=>({
   inventory:state.inventory.inventory,
   loading:state.inventory.loading,
   error:state.inventory.error,
-  deleteInventoryFail:state.inventory.deleteInventoryFail
+  deleteInventoryFail:state.inventory.deleteInventoryFail,
+  auth:state.auth
 })
 const mapDispatchToProps= dispatch=>({
-  onFetchInventory: ()=> dispatch(actions.fetchInventory()),
-  onDeleteInventory: (id)=>dispatch(actions.deleteInventory(id))
+  onFetchInventory: (idToken,userId)=> dispatch(actions.fetchInventory(idToken,userId)),
+  onDeleteInventory: (id,idToken)=>dispatch(actions.deleteInventory(id,idToken))
 })
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Inventory));
