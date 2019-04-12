@@ -10,7 +10,8 @@ const styles= theme=>({
     minHeight:'calc(100% - 60px)',
     marginTop:'75px',
     display:'flex',
-    flexWrap:'wrap'
+    flexWrap:'wrap',
+    boxSizing:'border-box'
   },
   container:{
     height:'100%'
@@ -47,7 +48,7 @@ class Layout extends Component {
     const {classes}=this.props;
     return (
       <React.Fragment>
-        <NavBar clicked={this.handleClick} active={this.state.active}/>
+        <NavBar onLogOut={this.props.onLogOut}authState={this.props.authState} clicked={this.handleClick} active={this.state.active}/>
         <main className={classes.main} style={{padding:8}}>
           <Grid justify="center" container spacing={16} className={classes.container}>
             {this.props.children}

@@ -5,9 +5,21 @@ export const authStart =()=>{
     type:actionTypes.AUTH_START
   }
 }
-
+export const authLogout =()=>{
+  localStorage.inventoryChecklist=''
+  return{
+    type:actionTypes.AUTH_LOGOUT
+  }
+}
+export const authCheckTimeOut=(expiresIn)=>{
+  return dispatch=>{
+    setTimeout(()=>{
+      dispatch(authLogout())
+    },expiresIn*1000)
+  }
+}
 export const authSuccess=(authData) =>{
-  localStorage.inventoryChecklist=JSON.stringify({idToken:authData.idToken,expiresIn:new Date(new Date().getTime() + (authData.expiresIn * 1000))})
+  localStorage.inventoryChecklist=JSON.stringify({idToken:authData.idToken,localId:authData.localId,expiresIn:new Date(new Date().getTime() + (authData.expiresIn * 1000))})
   return {
     type:actionTypes.AUTH_SUCCESS,
     value:authData
@@ -35,7 +47,30 @@ export const auth =(authData,isSignUp)=>{
       if (response.error) dispatch(authFail(response))
       else {
         dispatch(authSuccess(response))
+        dispatch(authCheckTimeOut(response.expiresIn))
       }
     }).catch(response=> dispatch(authFail(response)))
   }
+}
+
+export const autoSignUp =() =>{
+  return dispatch=>{
+    if(localStorage.inventoryChecklist){
+      let inventoryChecklist=JSON.parse(localStorage.inventoryChecklist);
+      let currentTime= new Date().getTime();
+      let expirationTime=new Date(inventoryChecklist.expiresIn).getTime()
+      let validity=expirationTime-currentTime
+      if(validity>0) {
+        dispatch(authSuccess(inventoryChecklist))
+        dispatch(authCheckTimeOut(validity/1000))
+      }
+      else{
+        dispatch(authLogout())
+      }
+    }
+    else{
+      dispatch(authLogout())
+    }
+  }
+
 }

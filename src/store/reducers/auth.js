@@ -8,7 +8,7 @@ const initalState={
 }
 
 const authSuccess= (state,action) =>{
-  return updateObject(state,{idToken:action.value.idToken,localId:action.value.localId,loading:false})
+  return updateObject(state,{idToken:action.value.idToken,localId:action.value.localId,loading:false,error:null})
 }
 const authFail = (state,action) =>{
   if(action.value.error){
@@ -28,6 +28,7 @@ const reducer = (state=initalState,action)=>{
     case actionTypes.AUTH_START : return updateObject(state,{loading:true})
     case actionTypes.AUTH_SUCCESS: return authSuccess(state,action)
     case actionTypes.AUTH_FAIL: return authFail(state,action)
+    case actionTypes.AUTH_LOGOUT: return updateObject(state, {idToken:null,localId:null})
     default:  return state
   }
 

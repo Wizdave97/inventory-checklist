@@ -58,6 +58,7 @@ const navBar = props =>{
       <Toolbar className={classes.root}>
         <div className={classes.logo}><img  className={classes.img} src='/assets/logo.svg' alt='inventory control'/></div>
         <Typography variant="h4" className={classes.title} color="inherit">Inventory Checklist</Typography>
+        {props.authState?
         <Fade in={true} timeout={{enter:10,exit:10}}>
           <React.Fragment>
           <Button variant="outlined"
@@ -76,8 +77,15 @@ const navBar = props =>{
             component={Link}
             to="/addInventory"
             size="medium">Add Inventory</Button>
-          </React.Fragment>
-        </Fade>
+            <Button variant="outlined"
+              onClick={()=> props.onLogOut()}
+              color='inherit'
+              className={classes.button}
+              component={Link}
+              to="/auth"
+              size="medium">Log Out</Button>
+        </React.Fragment>
+        </Fade>:''}
         <IconButton className={classes.hamburger} color="secondary" aria-label="Menu">
           <MenuIcon/>
         </IconButton>
