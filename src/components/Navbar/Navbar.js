@@ -84,11 +84,12 @@ const navBar = props =>{
               component={Link}
               to="/auth"
               size="medium">Log Out</Button>
+              <IconButton onClick={()=> props.onToggleSideDrawer()} className={classes.hamburger} color="secondary" aria-label="Menu">
+                <MenuIcon/>
+              </IconButton>
         </React.Fragment>
         </Fade>:''}
-        <IconButton className={classes.hamburger} color="secondary" aria-label="Menu">
-          <MenuIcon/>
-        </IconButton>
+
       </Toolbar>
     </AppBar>
   )

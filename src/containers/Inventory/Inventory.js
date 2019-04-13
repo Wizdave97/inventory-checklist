@@ -39,7 +39,8 @@ const styles= theme =>({
 class Inventory extends Component {
   state={
     filters:['','utensils','fruit','vegetables','cereal','meat','grain','liquid','spice','equipment'],
-    currentFilter:''
+    currentFilter:'',
+    query:'',
   }
   componentDidMount(){
     this.props.onFetchInventory(this.props.auth.idToken,this.props.auth.localId);
@@ -50,6 +51,11 @@ class Inventory extends Component {
     })
 
   }
+  handleSearch =(event)=>{
+    this.setState({
+      query:event.target.value
+    })
+  }
   viewItem = (id)=>{
     this.props.history.push(`/viewItem/${id}`)
   }
@@ -58,11 +64,28 @@ class Inventory extends Component {
     const { classes } = this.props
     let inventory=null
     let match= new RegExp(`${this.state.currentFilter}`,'gi');
+    let query= new RegExp(`${this.state.query}`,'gi');
     let nowShowing=null;
+    if(this.props.inventory&&this.props.inventory.length===0) {
+      inventory=(
+      <Typography align="center" variant="h4" color="secondary">
+        Your inventory is empty start adding items by navigating to the add Inventory Page
+      </Typography>)}
+    if(this.props.error) {
+      inventory=(
+      <Typography align="center" variant="h4" color="secondary">
+        A network error Occured
+      </Typography>)
+    }
     if(this.props.inventory) nowShowing=[...this.props.inventory];
     if (this.state.currentFilter){
       nowShowing=nowShowing.filter(([id,obj])=>{
         return match.test(obj.category)
+      })
+    }
+    if(this.state.query){
+      nowShowing=nowShowing.filter(([id,obj])=>{
+        return match.test(obj.category) && query.test(obj.item_name)
       })
     }
     if(this.props.loading) inventory=<Spinner/>
@@ -79,7 +102,7 @@ class Inventory extends Component {
                         component="img"
                         alt={inventory.item_name}
                         className={classes.media}
-                        image="/assets/tile.jpg"
+                        image={inventory.image_url?inventory.image_url:"/assets/placeholder.png"}
                         title="Food"
 
                         />
@@ -129,9 +152,9 @@ class Inventory extends Component {
           direction="row"
           alignItems="center">
             <Paper  xs={12} sm={6} md={6} lg={6} className={classes.root} elevation={1}>
-              <InputBase className={classes.input} placeholder="Search Inventory" />
+              <InputBase value={this.state.query} onChange={(event) => this.handleSearch(event)} className={classes.input} placeholder="Search Inventory by name" />
               <Divider className={classes.divider} />
-              <IconButton className={classes.iconButton} aria-label="Search">
+              <IconButton className={classes.iconButton} aria-label="Search Inventory by name">
                 <Search />
               </IconButton>
             </Paper>

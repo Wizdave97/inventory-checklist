@@ -8,7 +8,10 @@ const initialState={
   addInventory:false,
   addInventorySuccess:false,
   addInventoryFail:false,
-  deleteInventoryFail:false
+  deleteInventoryFail:false,
+  updateInventory:false,
+  updateInventorySuccess:false,
+  updateInventoryFail:false
 
 }
 const increaseQuantity = (state,id)=>{

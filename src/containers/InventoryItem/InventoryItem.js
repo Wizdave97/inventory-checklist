@@ -80,7 +80,7 @@ class InventoryItem extends Component {
   }
   componentWillUnmount(){
     this.handleAddQuantityAsync();
-    this.handleDecreaseQuantityAsync();  
+    this.handleDecreaseQuantityAsync();
   }
 
   render(){
@@ -95,12 +95,12 @@ class InventoryItem extends Component {
                   component="img"
                   alt={inventoryItem.item_name}
                   className={classes.media}
-                  image="/assets/tile.jpg"
+                  image={inventoryItem.image_url?inventoryItem.image_url:"/assets/placeholder.png"}
                   title="Food"
                   />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2">
-                    {inventoryItem.name}
+                    {inventoryItem.item_name}
                   </Typography>
                   <Typography component="p">
                     Quantity <strong>{inventoryItem.quantity} {inventoryItem.unit}</strong>

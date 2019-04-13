@@ -1,5 +1,6 @@
 import React ,{ Component } from 'react';
 import NavBar from '../../components/Navbar/Navbar';
+import SideDrawer from '../../components/UI/SideDrawer/SideDrawer';
 import Footer from '../../components/Footer/Footer';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -23,7 +24,7 @@ const styles= theme=>({
       marginRight:'auto'
     }
   },
-  '@media screen and (min-width:602px) and (max-width:720px)':{
+  '@media screen and (min-width:602px) and (max-width:819px)':{
     main:{
       marginTop:'110px'
     }
@@ -36,19 +37,25 @@ const styles= theme=>({
 })
 class Layout extends Component {
   state={
-    active:0
+    active:0,
+    showSideDrawer:false
   }
   handleClick =(val)=>{
     this.setState({
       active:val
     })
   }
-
+  toggleSideDrawer= ()=>{
+    this.setState(state=>({
+      showSideDrawer:!state.showSideDrawer
+    }))
+  }
   render () {
     const {classes}=this.props;
     return (
       <React.Fragment>
-        <NavBar onLogOut={this.props.onLogOut}authState={this.props.authState} clicked={this.handleClick} active={this.state.active}/>
+        <NavBar onToggleSideDrawer={this.toggleSideDrawer} onLogOut={this.props.onLogOut} authState={this.props.authState} clicked={this.handleClick} active={this.state.active}/>
+        {this.state.showSideDrawer?<SideDrawer onToggleSideDrawer={this.toggleSideDrawer}   onLogOut={this.props.onLogOut}/>:null}
         <main className={classes.main} style={{padding:8}}>
           <Grid justify="center" container spacing={16} className={classes.container}>
             {this.props.children}
