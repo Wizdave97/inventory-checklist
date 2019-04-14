@@ -15,6 +15,16 @@ export const addInventoryComplete =()=>{
     type:actionTypes.ADD_INVENTORY_COMPLETE
   }
 }
+export const updateInventorySync = (type) =>{
+  return {
+    type:type
+  }
+}
+export const updateInventoryComplete =()=>{
+  return {
+    type:actionTypes.UPDATE_INVENTORY_COMPLETE
+  }
+}
 export const addInventory = (data,idToken)=>{
   return dispatch =>{
     dispatch(addInventorySync(actionTypes.ADD_INVENTORY))
@@ -28,6 +38,20 @@ export const addInventory = (data,idToken)=>{
     })
   }
 }
+export const updateInventory = (data,idToken,id)=>{
+  return dispatch =>{
+    dispatch(updateInventorySync(actionTypes.UPDATE_INVENTORY))
+    let url=`https://soup-kitchen-8a966.firebaseio.com/inventory/${id}.json?auth=${idToken}`
+    fetch(url,{method:'PATCH',body:JSON.stringify(data)}).then(response=>{
+      return response.json()
+    }).then(response=>{
+      dispatch(updateInventorySync(actionTypes.UPDATE_INVENTORY_SUCCESS))
+    }).catch(err=>{
+      dispatch(updateInventorySync(actionTypes.UPDATE_INVENTORY_FAIL))
+    })
+  }
+}
+
 
 export const increaseQuantity = (type,id) =>{
   return {

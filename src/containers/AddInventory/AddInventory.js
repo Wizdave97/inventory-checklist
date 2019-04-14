@@ -44,7 +44,6 @@ class AddInventory extends Component {
   }
 
   handleUnitChange= (event) =>{
-    event.preventDefault();
     this.setState({
       unit:event.target.value
     })

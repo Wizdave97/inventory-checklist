@@ -4,25 +4,38 @@ import Layout from './hoc/Layout/Layout';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { authLogout , autoSignUp } from './store/actions/authActions';
-import Inventory from './containers/Inventory/Inventory';
-import AddInventory from './containers/AddInventory/AddInventory';
-import InventoryItem from './containers/InventoryItem/InventoryItem';
-import Auth from './containers/Auth/Auth';
+import asyncComponents from './hoc/asyncComponents/asyncComponents';
+const asyncInventory= asyncComponents(()=>{
+  return import('./containers/Inventory/Inventory');
+})
+const asyncAddInventory= asyncComponents(()=>{
+  return import('./containers/AddInventory/AddInventory');
+})
+const asyncInventoryItem= asyncComponents(()=>{
+  return import('./containers/InventoryItem/InventoryItem');
+})
+const asyncEditItem= asyncComponents(()=>{
+  return import('./containers/EditItem/EditItem');
+})
+const asyncAuth= asyncComponents(()=>{
+  return import('./containers/Auth/Auth');
+})
 class App extends Component {
   componentDidMount(){
     this.props.onAutoSignup();
   }
   render() {
     let routes=(<Switch>
-                  <Route exact path='/auth' component={Auth}/>
+                  <Route exact path='/auth' component={asyncAuth}/>
                   <Redirect to="/auth"/>
                 </Switch>)
     if(this.props.isAuthenticated){
       routes=(    <Switch>
-                    <Route exact path="/inventory" component={Inventory}/>
-                    <Route exact path="/addInventory" component={AddInventory}/>
-                    <Route  exact path="/viewItem/:id" component={InventoryItem}/>
-                    <Route exact path='/auth' component={Auth}/>
+                    <Route exact path="/inventory" component={asyncInventory}/>
+                    <Route exact path="/addInventory" component={asyncAddInventory}/>
+                    <Route  exact path="/viewItem/:id" component={asyncInventoryItem}/>
+                    <Route  exact path="/editItem/:id" component={asyncEditItem}/>
+                    <Route exact path='/auth' component={asyncAuth}/>
                   </Switch>)
     }
     return (

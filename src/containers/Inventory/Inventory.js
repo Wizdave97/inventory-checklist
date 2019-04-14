@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid ,Typography,InputBase, Divider, Paper, Card, CardActionArea, CardMedia, CardContent, CardActions, Button, IconButton} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import { Edit, Delete, Search } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/inventoryActions';
@@ -116,7 +117,7 @@ class Inventory extends Component {
                       </CardContent>
                     </CardActionArea>
                     <CardActions>
-                      <Button size="small" color="secondary">
+                      <Button component={Link} to={`/editItem/${id}`} size="small" color="secondary">
                         <Edit/>Edit
                       </Button>
                       <Button size="small" color="secondary" onClick={()=>this.props.onDeleteInventory(id,this.props.auth.idToken)}>
