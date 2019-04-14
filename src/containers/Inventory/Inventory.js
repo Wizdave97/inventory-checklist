@@ -6,6 +6,7 @@ import { Edit, Delete, Search } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/inventoryActions';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import PlaceHolder from '../../placeholder.png'
 
 const styles= theme =>({
   card:{
@@ -103,7 +104,7 @@ class Inventory extends Component {
                         component="img"
                         alt={inventory.item_name}
                         className={classes.media}
-                        image={inventory.image_url?inventory.image_url:"/assets/placeholder.png"}
+                        image={inventory.image_url?inventory.image_url:PlaceHolder}
                         title="Food"
 
                         />

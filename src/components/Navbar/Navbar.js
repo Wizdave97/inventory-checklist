@@ -4,6 +4,7 @@ import Fade from '@material-ui/core/Fade';
 import {withStyles} from '@material-ui/core/styles';
 import  MenuIcon  from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
+import Logo from '../../logo.svg'
 
 
 const styles = theme =>({
@@ -56,7 +57,7 @@ const navBar = props =>{
   return(
     <AppBar position="fixed">
       <Toolbar className={classes.root}>
-        <div className={classes.logo}><img  className={classes.img} src='/assets/logo.svg' alt='inventory control'/></div>
+        <div className={classes.logo}><img  className={classes.img} src={Logo} alt='inventory control'/></div>
         <Typography variant="h4" className={classes.title} color="inherit">Inventory Checklist</Typography>
         {props.authState?
         <Fade in={true} timeout={{enter:10,exit:10}}>

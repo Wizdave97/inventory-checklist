@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions/inventoryActions';
 import * as actionTypes from '../../store/actions/actionTypes';
+import PlaceHolder from '../../placeholder.png'
 
 const styles = theme =>({
   root:{
@@ -95,7 +96,7 @@ class InventoryItem extends Component {
                   component="img"
                   alt={inventoryItem.item_name}
                   className={classes.media}
-                  image={inventoryItem.image_url?inventoryItem.image_url:"/assets/placeholder.png"}
+                  image={inventoryItem.image_url?inventoryItem.image_url:PlaceHolder}
                   title="Food"
                   />
                 <CardContent>
