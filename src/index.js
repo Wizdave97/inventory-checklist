@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { createStore,combineReducers, compose, applyMiddleware } from 'redux';
-import { BrowserRouter} from 'react-router-dom'
+import { HashRouter} from 'react-router-dom'
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import * as serviceWorker from './serviceWorker';
@@ -48,11 +48,11 @@ const theme = createMuiTheme({
 })
 ReactDOM.render(
                   <Provider store={store}>
-                  <BrowserRouter>
+                  <HashRouter>
                       <MuiThemeProvider theme={theme}>
                         <App  />
                       </MuiThemeProvider>
-                  </BrowserRouter>
+                  </HashRouter>
                 </Provider>
               , document.getElementById('root'));
 
