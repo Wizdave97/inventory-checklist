@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/inventory-checklist/static/css/5.09ab03e9.chunk.css"
   },
   {
-    "revision": "034ed436070f95624a26",
+    "revision": "79b2150a08f1fb5d7c07",
     "url": "/inventory-checklist/static/css/main.48695cba.chunk.css"
   },
   {
@@ -32,8 +32,8 @@ self.__precacheManifest = [
     "url": "/inventory-checklist/static/js/4.f9d500cc.chunk.js"
   },
   {
-    "revision": "034ed436070f95624a26",
-    "url": "/inventory-checklist/static/js/main.68f3c946.chunk.js"
+    "revision": "79b2150a08f1fb5d7c07",
+    "url": "/inventory-checklist/static/js/main.d3e1af6a.chunk.js"
   },
   {
     "revision": "f1f4f73ef819cc57dd9b",
@@ -64,7 +64,7 @@ self.__precacheManifest = [
     "url": "/inventory-checklist/static/css/3.09ab03e9.chunk.css"
   },
   {
-    "revision": "db9c6352c7f4ca62c25d4a4ce9689818",
+    "revision": "20fcb08ba947efdd1f3009eb97be9d9b",
     "url": "/inventory-checklist/index.html"
   }
 ];
